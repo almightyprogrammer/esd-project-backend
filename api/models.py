@@ -12,11 +12,26 @@ class User(AbstractUser):
         return self.username
 
 class Item(models.Model):
+    CATEGORY_CHOICES = [
+        ('event', 'Event & Party'),
+        ('furniture', 'Furniture'),
+        ('photo', 'Photography & Video'),
+        ('tech', 'Electronics & Tech'),
+        ('arts', 'Arts & Craft'),
+        ('fashion', 'Fashion & Wearables'),
+        ('kitchen', 'Kitchen & Wearables'),
+        ('tools', 'Tools & DIY'),
+        ('outdoor', 'Outdoor & Recreation'),
+        ('travel', 'Travel & Lifestyle'),
+        ('misc', 'Miscellaneous')
+    ]
+
     title = models.CharField(max_length=255)
     description = models.TextField()
     quantity = models.PositiveIntegerField()
+    image_url = models.ImageField(upload_to='user_images/', blank=True, null=True)
     is_available = models.BooleanField(default=True)
-
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     #if a user is deleted, all the items that the user has posted gets deleted
     #related_name = 'items' allows access the items that the user owns by user.items.all()
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='item')
