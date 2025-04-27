@@ -1,5 +1,6 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -24,6 +25,7 @@ def item_list(request):
     return Response(serialiser.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
 def post_item(request):
     serialiser = ItemSerialiser(data=request.data)
     if serialiser.is_valid():
