@@ -12,5 +12,7 @@ urlpatterns = [
     path('post_item/', post_item),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # login (get tokens)
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
-
+    path('authentication/', authentication_view),
+    path('items/', paginated_item_view),
+    path('item/<int:item_id>/', item_page_view)
 ]

@@ -14,22 +14,19 @@ class User(AbstractUser):
 class Item(models.Model):
     CATEGORY_CHOICES = [
         ('event', 'Event & Party'),
-        ('furniture', 'Furniture'),
+        ('games', 'Board Games'),
+        ('stationery', 'Stationery'),
         ('photo', 'Photography & Video'),
         ('tech', 'Electronics & Tech'),
         ('arts', 'Arts & Craft'),
-        ('fashion', 'Fashion & Wearables'),
-        ('kitchen', 'Kitchen & Wearables'),
+        ('catering', 'Catering'),
         ('tools', 'Tools & DIY'),
-        ('outdoor', 'Outdoor & Recreation'),
-        ('travel', 'Travel & Lifestyle'),
         ('misc', 'Miscellaneous')
     ]
 
     title = models.CharField(max_length=255)
     description = models.TextField()
     quantity = models.PositiveIntegerField()
-    image_url = models.ImageField(upload_to='user_images/', blank=True, null=True)
     is_available = models.BooleanField(default=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     #if a user is deleted, all the items that the user has posted gets deleted
@@ -42,15 +39,23 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to='user_images/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
 class Booking(models.Model):
     #we have a 2-tuple, first element of the tuple is what is stored in the database
     #the second element is what our application sees (not too sure about it because we are using Vue.js tho)
 
     STATUS_CHOICES = [
-        ('In progress', 'In progress'),
-        ('Overdue', 'Overdue'),
-        ('Completed', 'Completed')
+        ('BOOKED', 'BOOKED'),
+        ('PICKED UP', 'PICKED UP'),
+        ('OVERDUE', 'OVERDUE'),
+        ('RETURNED UNVERIFIED', 'RETURNED UNVERIFIED'),
+        ('RETURNED VERIFIED', 'RETURNED VERIFIED')
     ]
     quantity = models.PositiveIntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='bookings')
@@ -58,7 +63,8 @@ class Booking(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
     booking_start = models.DateTimeField()
     booking_end = models.DateTimeField()
-
+    booker_comment = models.TextField()
+    return_verification_pic = models.ImageField()
     #null=True, this allows date_returned to be null in the database.
     #blank=True, this allows the field to be left empty, so that we can add it later.
     date_returned = models.DateTimeField(null=True, blank=True)
