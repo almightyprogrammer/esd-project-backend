@@ -63,8 +63,10 @@ class Booking(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
     booking_start = models.DateTimeField()
     booking_end = models.DateTimeField()
-    booker_comment = models.TextField()
-    return_verification_pic = models.ImageField()
+    #comment by the booker, this will be entered after booker returns the item.
+    booker_comment = models.TextField(null=True, blank=True, default="")
+    #takes in only one verification pic, would be a waste of space to have multiple.
+    return_verification_pic = models.ImageField(upload_to='return_verifications/', null=True, blank=True)
     #null=True, this allows date_returned to be null in the database.
     #blank=True, this allows the field to be left empty, so that we can add it later.
     date_returned = models.DateTimeField(null=True, blank=True)
