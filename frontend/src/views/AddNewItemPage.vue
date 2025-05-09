@@ -18,6 +18,17 @@ AddNewItemPage
     type="number"
     v-model="quantity"
   />
+  <DropdownSelect
+    label="Category: "
+    :options="categories"
+    v-model="category"
+  />
+  <DropdownSelect
+    label="Availability: "
+    :options="availabilities"
+    v-model="availability"
+  />
+
 </template>
 <script setup>
 import { ref } from "vue";
@@ -25,8 +36,15 @@ import PageHeader from "../components/common/PageHeader.vue";
 import ProfileNavigationBar from "../components/profile_common/ProfileNavigationBar.vue";
 import ImageUploader from "../components/ui/ImageUploader.vue";
 import TextInput from "../components/ui/TextInput.vue";
+import DropdownSelect from '../components/ui/DropdownSelect.vue';
 
 const images = ref([]);
+
+const category = ref('');
+const categories = ['Event & Party', 'Board Games', 'Photography & Video','Electronics & Tech','Arts & Craft','Catering','Tools & DIY','Miscellaneous'];
+
+const availability = ref('');
+const availabilities =['Yes', 'No'];
 
 function handleImageAdd(newImage) {
   images.value.push(newImage);

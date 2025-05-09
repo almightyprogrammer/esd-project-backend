@@ -142,6 +142,7 @@ function prevImage() {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 
 .image-viewer {
