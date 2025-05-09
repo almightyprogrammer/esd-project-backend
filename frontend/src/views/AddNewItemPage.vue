@@ -1,3 +1,6 @@
 <template>
-    <p> This is the add new item page.</p>
+    <PageHeader/>
 </template>
+<script setup>
+    import PageHeader from '../components/common/PageHeader.vue';
+</script>
