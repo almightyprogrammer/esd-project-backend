@@ -12,7 +12,6 @@
         <input type="password" id="password" v-model="password" required />
       </div>
       <button type="submit">Sign In</button>
-      <!-- New club -->
       <div>
         <p><a href="mailto:esd.uoa@gmail.com">New Club?</a></p>
       </div>
@@ -24,19 +23,27 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
+
+const router = useRouter();
 
 const username = ref("");
 const password = ref("");
-// const errorMessage = ref("");
+const errorMessage = ref("");
 
-const handleAdd = async () => {
+const handleLogin = async () => {
   if (!username.value || !password.value) {
     errorMessage.value = "Please enter both your club's username and password. Click on the 'New Club?' link if you're having trouble signing in.";
     return;
   }
+
+  // Clear any previous error message
+  errorMessage.value = "";
+
   try {
-    const response = await axios.post("/api/token/", {
+    // const response = await axios.post("http://localhost:8000/api/token/", { // absolute URL, assuming the server is running on localhost:8000
+    const response = await axios.post("/api/token/", { // relative URL, assuming the server is running on the same host
       username: username.value,
       password: password.value,
     }, {
@@ -68,7 +75,7 @@ const handleAdd = async () => {
 };
 </script>
 
-<!-- Style -->
+
 <style scoped>
 * {
   font-family: 'Inter', sans-serif;
