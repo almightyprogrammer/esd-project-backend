@@ -134,11 +134,11 @@ function prevImage() {
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .addButton {
   font-size: 2rem;
-  font-weight: bold;
   background: none;
   border: none;
   cursor: pointer;
