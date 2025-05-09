@@ -28,6 +28,11 @@ AddNewItemPage
     :options="availabilities"
     v-model="availability"
   />
+  <TextAreaInput
+    label="Detailed Description: "
+    placeholder="Provide a detailed description"
+    v-model="description"
+  />
 
 </template>
 <script setup>
@@ -37,6 +42,7 @@ import ProfileNavigationBar from "../components/profile_common/ProfileNavigation
 import ImageUploader from "../components/ui/ImageUploader.vue";
 import TextInput from "../components/ui/TextInput.vue";
 import DropdownSelect from '../components/ui/DropdownSelect.vue';
+import TextAreaInput from "../components/ui/TextAreaInput.vue";
 
 const images = ref([]);
 
@@ -45,6 +51,8 @@ const categories = ['Event & Party', 'Board Games', 'Photography & Video','Elect
 
 const availability = ref('');
 const availabilities =['Yes', 'No'];
+
+const description = ref('');
 
 function handleImageAdd(newImage) {
   images.value.push(newImage);

@@ -29,7 +29,7 @@
   .text-input {
     display: flex;
     align-items: center;
-    gap: 2rem; 
+    gap: 2rem;
   }
   
   .input-label {
@@ -44,6 +44,9 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.2;
+    box-sizing: border-box;
     outline: none;
   }
   
