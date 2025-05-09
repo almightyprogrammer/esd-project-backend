@@ -37,46 +37,82 @@
             :options="availabilities"
             v-model="availability"
           />
+          <TextInput
+            label="Pickup:"
+            placeholder="Enter pickup location"
+            v-model="pickupLocation"
+          />
+          <TextInput
+            label="Return:"
+            placeholder="Enter return location"
+            v-model="returnLocation"
+          />
           <TextAreaInput
             label="Detailed Description: "
             placeholder="Provide a detailed description"
             v-model="description"
           />
         </div>
-  
-        <Button label="Add Item" type="submit" />
+        <Button label="Add Item" type="submit" @click="handleAdd"></Button>
       </div>
     </div>
   </template>
   
   <script setup>
-  import { ref } from "vue";
-  import PageHeader from "../components/common/PageHeader.vue";
-  import ProfileNavigationBar from "../components/profile_common/ProfileNavigationBar.vue";
-  import ImageUploader from "../components/ui/ImageUploader.vue";
-  import TextInput from "../components/ui/TextInput.vue";
-  import DropdownSelect from "../components/ui/DropdownSelect.vue";
-  import TextAreaInput from "../components/ui/TextAreaInput.vue";
-  import Button from "../components/ui/Button.vue";
+import { ref } from "vue";
+import axios from "axios";
+import PageHeader from "../components/common/PageHeader.vue";
+import ProfileNavigationBar from "../components/profile_common/ProfileNavigationBar.vue";
+import ImageUploader from "../components/ui/ImageUploader.vue";
+import TextInput from "../components/ui/TextInput.vue";
+import DropdownSelect from "../components/ui/DropdownSelect.vue";
+import TextAreaInput from "../components/ui/TextAreaInput.vue";
+import Button from "../components/ui/Button.vue";
+import { categories } from "../constants/itemCategories";
+import { availabilities } from "../constants/availabilities";
+
+const images = ref([]);
+const itemName = ref("");
+const quantity = ref("");
+const category = ref("");
+const availability = ref("");
+const pickupLocation = ref("");
+const returnLocation = ref("");
+const description = ref("");
+
+const handleAdd = async () => {
+  const token = "To be replaced with a token stored in a local storage"; 
   
-  const images = ref([]);
-  const itemName = ref("");
-  const quantity = ref("");
-  const category = ref("");
-  const categories = [
-    "Event & Party",
-    "Board Games",
-    "Photography & Video",
-    "Electronics & Tech",
-    "Arts & Craft",
-    "Catering",
-    "Tools & DIY",
-    "Miscellaneous",
-  ];
-  const availability = ref("");
-  const availabilities = ["Yes", "No"];
-  const description = ref("");
-  </script>
+  const bodyData = new FormData();
+  bodyData.append("title", itemName.value);
+  bodyData.append("quantity", quantity.value);
+  bodyData.append("description", description.value);
+  bodyData.append("category", category.value);
+  bodyData.append("availability", availability.value);
+  bodyData.append("pickup_location", pickupLocation.value);
+  bodyData.append("return_location", returnLocation.value);
+
+  images.value.forEach((file) => {
+    bodyData.append("uploaded_images", file);
+  });
+
+  try {
+    const response = await axios.post("http://localhost:8000/api/post_item/", bodyData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    alert("Item added successfully!");
+    console.log("Server response:", response.data);
+  } catch (error) {
+    console.error("Failed to add item:", error.response?.data || error.message);
+    alert("Failed to add item");
+  }
+};
+</script>
+
   
   <style scoped>
   .title-container {
@@ -131,4 +167,3 @@
     justify-content: center; 
   }
   </style>
-  
