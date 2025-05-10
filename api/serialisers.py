@@ -6,12 +6,13 @@ class UserSerialiser(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-    
+
 
 class BookingSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
+
 
 class ItemImageSerialiser(serializers.ModelSerializer):
     class Meta:
@@ -19,12 +20,10 @@ class ItemImageSerialiser(serializers.ModelSerializer):
         fields = ['id', 'image']
 
 
-
-
 class ItemSerialiser(serializers.ModelSerializer):
     images = ItemImageSerialiser(many=True, read_only=True)
     uploaded_images = serializers.ListField(
-           child=serializers.ImageField(), write_only = True, required = False
+        child=serializers.ImageField(), write_only=True, required=False
     )
 
     class Meta:
@@ -38,4 +37,3 @@ class ItemSerialiser(serializers.ModelSerializer):
         for image in uploaded_images:
             ItemImage.objects.create(item=item, image=image)
         return item
-    
