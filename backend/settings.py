@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    "rest_framework_swagger",
+    "drf_yasg"
 ]
 
 # Uses the custom User model for the django auth
@@ -113,6 +115,24 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# settings.py
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "in":   "header",
+            "name": "Authorization",      # ← just the header name
+            "description": (
+                "Paste **`Bearer &lt;access-token&gt;`** here. "
+                "Example: `Bearer eyJ0eXAiOiJKV1Q…`"
+            ),
+        }
+    },
+    # optional but handy
+    "PERSIST_AUTH": True,                # remember token across reloads
+}
 
 
 # Internationalization
