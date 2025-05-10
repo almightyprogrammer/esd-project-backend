@@ -174,5 +174,4 @@ def item_page_view(request, item_id: int):
             "dates_available": dates_available,
             "description": item.description,
             "images": image_urls,
-        }
-    )
+        })
