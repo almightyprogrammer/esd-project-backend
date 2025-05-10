@@ -81,7 +81,7 @@ const returnLocation = ref("");
 const description = ref("");
 
 const handleAdd = async () => {
-  const token = "To be replaced with a token stored in a local storage"; 
+  const token = localStorage.getItem("accessToken");
   
   const bodyData = new FormData();
   bodyData.append("title", itemName.value);
