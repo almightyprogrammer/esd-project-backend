@@ -43,7 +43,7 @@ const handleLogin = async () => {
 
   try {
     // const response = await axios.post("http://localhost:8000/api/token/", { // absolute URL, assuming the server is running on localhost:8000
-    const response = await axios.post("/api/token/", { // relative URL, assuming the server is running on the same host
+    const response = await axios.post("http://localhost:8000/api/authentication/", { // relative URL, assuming the server is running on the same host
       username: username.value,
       password: password.value,
     }, {
@@ -54,11 +54,10 @@ const handleLogin = async () => {
 
     const token = response.data; // All token data (not just access token)
     if (token) {
-      localStorage.setItem("jwt", token);
+      localStorage.setItem("accessToken", token.access);
 
       // For debugging:
       alert("Logged in successfully!");
-      console.log("Server response:", response.data);
 
       // FINAL TODO: Redirect to display items page
       // Current TODO: Redirect to add new items page using Vue
