@@ -176,5 +176,3 @@ def item_page_view(request, item_id: int):
             "images": image_urls,
         }
     )
-
-
